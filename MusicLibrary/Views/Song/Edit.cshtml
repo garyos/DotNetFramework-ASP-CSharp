@@ -1,0 +1,134 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Song
+
+<h4>Edit Song</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" method="post">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SongID" name="SongID" value="@Model.SongID" />
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" placeholder="@Model.Title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Artist" class="control-label"></label>
+                    <input asp-for="Artist" class="form-control" placeholder="@Model.Artist" />
+                    <span asp-validation-for="Artist" class="text-danger"></span>
+                </div>
+            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <table class="table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="4">
+                            <h2>Choose Albums</h2>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 0px 0px 0px 10px">#</th>
+                        <th style="padding: 0px 0px 0px 10px">Album name</th>
+                        <th style="padding: 0px 0px 0px 10px">Select Applicable</th>
+                    </tr>
+                </thead>
+                <tr>
+                    @{
+                        int cnt = 0;
+                        List<MusicLibrary.Models.AssignedAlbum> albums = ViewBag.Albums;
+
+                        foreach (var album in albums)
+                        {
+                            if (cnt++ % 1 == 0)
+                            {
+                            @:</tr><tr>
+                            }
+
+                            <td style="padding: 0px 0px 0px 10px">
+                                @album.AlbumID
+                            </td>
+                            <td style="padding:0px 0px 0px 10px">
+                                @album.Name
+                            </td>
+                            <td colspan="2" style="padding:0px 0px 0px 10px">
+                                <input type="checkbox"
+                                       name="selectedAlbums"
+                                       value="@album.AlbumID"
+                                       style="align-content:center"
+                                       @(Html.Raw(album.Assigned ? "checked=\"checked\"" : "")) />
+
+                            </td>
+
+
+                        }
+                    @:</tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                <h2>Choose Genres</h2>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 0px 0px 0px 10px">#</th>
+                            <th style="padding: 0px 0px 0px 10px">Genre name</th>
+                            <th style="padding: 0px 0px 0px 10px">Select Applicable</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        @{
+                            int count = 0;
+                            List<MusicLibrary.Models.AssignedGenre> genres = ViewBag.Genres;
+
+                            foreach (var genre in genres)
+                            {
+                                if (count++ % 1 == 0)
+                                {
+                                @:</tr><tr>
+                                }
+
+                                <td style="padding: 0px 0px 0px 10px">
+                                    @genre.GenreID
+                                </td>
+                                <td style="padding:0px 0px 0px 10px">
+                                    @genre.Name
+                                </td>
+                                @:<td colspan="2" style="padding: 0px 0px 0px 10px">
+                                    <input type="checkbox"
+                                           name="selectedGenres"
+                                           value="@genre.GenreID"
+                                           style="align-content:center"
+                                           @(Html.Raw(genre.Assigned ? "checked=\"checked\"" : "")) />
+
+                                @:</td>
+
+
+                            }
+                        @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" onclick = "return confirm('Happy to proceed?');" />
+            </div>
+            </form>
+
+        </div>
+
+    <div>
+        <a asp-action="List">Back to List</a>
+    </div>

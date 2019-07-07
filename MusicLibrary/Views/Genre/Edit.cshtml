@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Genre
+
+<h1>Edit</h1>
+
+<h4>Genre</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GenreID" name="GenreID" value="@Model.GenreID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="@Model.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th colspan="2"><h2>Showing songs for Genre: @Model.Name</h2></th>
+            </tr>
+            <tr>
+                <th><h3>Title</h3></th>
+                <th><h3>Artist</h3></th>
+                <th><h3>Options</h3></th>
+            </tr>
+        </thead>
+        @foreach (SongGenre sg in Model.SongGenres)
+        {
+        <tr>
+            <td>
+                <a asp-area="" asp-controller="Genre" asp-action="SongsByGenre" asp-route-id="@Model.GenreID">@(sg.Song.Title)</a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Genre" asp-action="SongsByGenre" asp-route-id="@Model.GenreID">@(sg.Song.Artist)</a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="SongGenre" asp-action="RemoveSongGenre" asp-route-id="@sg.SongGenreID">Remove</a>
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+

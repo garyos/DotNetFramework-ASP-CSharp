@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Album>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <h2>Showing all Albums</h2>
+                    <h3><a asp-area="" asp-controller="Album" asp-action="AddAlbum">+New Album</a></h3>
+                </th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        @foreach (var a in Model)
+        {
+        <tr>
+            <td>
+                <a asp-area="" asp-controller="Album" asp-action="SongsByAlbum" asp-route-id="@a.AlbumID">@a.Name</a>
+            </td>
+            <td>
+            <a asp-action="Edit" asp-route-id="@a.AlbumID">Edit</a> |
+            <a asp-action="SongsByAlbum" asp-route-id="@a.AlbumID">Details</a> |
+            <a asp-controller="Collective" asp-action="RemoveAlbum" asp-route-id="@a.AlbumID" onclick = "return confirm('Are sure wants to delete?');">Delete</a>
+            </td>
+        </tr>
+        }
+    </table>
+</div>

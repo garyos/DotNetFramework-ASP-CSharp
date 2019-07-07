@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Song>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th colspan="4">
+                    <h2>Showing all Songs</h2>
+                    <h3><a asp-area="" asp-controller="Song" asp-action="AddSong">+New Song</a></h3>
+                </th>
+            </tr>
+        
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Albums</th>
+                <th>Genres</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            @foreach (var s in Model)
+            {
+        <tr>
+            <td><a asp-action="Edit" asp-route-id="@s.SongID">@s.Title</a></td>
+            <td>@s.Artist</td>
+            <td>
+                <ol>
+                    @foreach (SongAlbum sa in s.SongAlbums)
+                    {
+                        <li><a asp-area="" asp-controller="Album" asp-action="SongsByAlbum" asp-route-id="@sa.Album.AlbumID">@sa.Album.Name</a></li>
+                    }
+                </ol>
+            </td>
+            <td>
+                <ul>
+                    @foreach (SongGenre sg in s.SongGenres)
+                    {
+                        <li><a asp-area="" asp-controller="Genre" asp-action="SongsByGenre" asp-route-id="@sg.Genre.GenreID" >@sg.Genre.Name</a></li>
+                    }
+                </ul>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@s.SongID">Edit</a> |
+                <a asp-controller="Collective" asp-action="RemoveSong" asp-route-id="@s.SongID" onclick = "return confirm('Are sure wants to delete?');">Delete</a>
+
+            </td>
+
+        </tr>
+        }
+    </table>
+
+</div>
